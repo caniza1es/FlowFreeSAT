@@ -1,0 +1,136 @@
+import Logica
+
+Nx = 1
+Ny = 1
+Nc = 3
+Nd = 1
+X = list(range(Nx))
+Y = list(range(Ny))
+C = list(range(Nc))
+D = list(range(Nd))
+Colores = {
+	0 : 'R',
+	1 : 'G',
+	2 : 'B',
+	3 : 'O' 
+}
+Direcciones = {
+	0 : "t",
+	1 : "tb",
+	2 : "tl",
+	3 : "tr",
+	4 : "lb",
+	5 : "rb",
+	6 : "lr"
+}
+
+reglas = []
+
+OenCasilla = Logica.Descriptor([Nx,Ny,Nc,Nd])
+
+#decodificacion caracter
+def escribir(self,literal):
+	if '-' in literal:
+		atomo = literal[1:]
+		neg = ' no'
+	else:
+		atomo = literal
+		neg = ''
+		x, y, c, d = self.inv(atomo)
+		return f"{neg}({X[x]},{Y[y]})/{Colores[c]}{Direcciones[d]}"
+
+from types import MethodType
+OenCasilla.escribir = MethodType(escribir, OenCasilla)
+
+def decodificar(list):
+	matriz = []
+	m = []
+	pos = {}
+	t = {
+		"Rt" : "R",
+		"Rlr" : "r",
+		"Rtb" : "Q",
+		"Rtl" : "W",
+		"Rtr" :	"E",
+		"Rlb" : "T",
+		"Rrb" : "Y",
+		"Gt"  : "G",
+		"Glr" : "g",
+		"Gtb" : "q",
+		"Gtl" : "w",
+		"Gtr" : "e",
+		"Glb" : "t",
+		"Grb" : "y",
+		"Bt" : "B",
+		"Btb": "z",
+		"Btl" : "x",
+		"Btr" : "c",
+		"Blb" : "v",
+		"Brb" : "n",
+		"Ot" : "O",
+		"Olr" : "o",
+		"Otb" : "Z",
+		"Otl" : "X",
+		"Otr" : "C",
+		"Olb" : "V",
+		"Orb" : "N"
+
+	}
+	for key in list:
+		m.append(OenCasilla.escribir(key))
+		print(OenCasilla.escribir(key))
+	for i in m:
+		pos[(int(i[1]),int(i[3]))] = i.split("/")[1]
+	for y in range(Ny):
+		strr = ""
+		for x in range(Nx):
+			for key in pos.keys():
+				if key[0] == x and key[1] == y:
+					strr+=t[pos[(x,y)]]
+				else:
+					continue
+		matriz.append(strr)
+	return matriz
+
+def asignarReglas(lista):
+	reglas = []
+	reglas.append(unColor())
+	reglas.append(asignarColor(),)
+	for i in lista:
+		reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
+	return reglas
+
+def asignarColor():
+	Yx = []
+	for x in X:
+		Yy = []
+		for y in Y:
+			Yd = []
+			for d in D:
+				Oc = []
+				for c in C:
+					formula = OenCasilla.P([x,y,c,d])
+					Oc.append(formula)
+				Yd.append(Logica.Otoria(Oc))
+			Yy.append(Logica.Ytoria(Yd))
+		Yx.append(Logica.Ytoria(Yy))
+	return Logica.Ytoria(Yx)
+
+#Cada casilla debe tener un color especificamente
+def unColor():
+	Yx = []
+	for x in X:
+		Yy = []
+		for y in Y:
+			Yd = []
+			for d in D:
+				Yc = []
+				for c in C:
+					otros_colores = [OenCasilla.P([x,y,u,d]) for u in C if u != c]
+					formula = "("+OenCasilla.P([x,y,c,d])+">-"+Logica.Otoria(otros_colores)+")"
+					Yc.append(formula)
+				Yd.append(Logica.Ytoria(Yc))
+			Yy.append(Logica.Ytoria(Yd))
+		Yx.append(Logica.Ytoria(Yy))
+	return Logica.Ytoria(Yx)
+
