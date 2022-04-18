@@ -1,15 +1,21 @@
 # FlowFreeSAT
 
+-----------------------------------
 PARAMETROS ESCRITURA/LECTURA MATRIZ
+-----------------------------------
 
-R - rojo
-G - verde
-B - azul
-O - naranja
+R - rojo <br />
+G - verde <br />
+B - azul <br />
+O - naranja <br />
 
+-----------
 DIRECCIONES
-    left-right  top-bottom  top-left  top-right  left-bottom  right-bottom
-R -	r     Q          W         E           T             Y
-G -	g	    q          w         e           t             y
-B -	b	    z          x         c           v             n	
-O -	o	    Z          X         C           V             N
+-----------
+
+|         | terminal | left-right | top-bottom | top-left | top-right | left-botom | right-bottom |
+|---------|----------|------------|------------|----------|-----------|------------|--------------|
+| rojo    | R        | r          | Q          | W        | E         | T          | Y            |
+| verde   | G        | g          | q          | w        | e         | t          | y            |
+| azul    | B        | b          | z          | x        | c         | v          | n            |
+| naranja | O        | o          | Z          | X        | C         | V          | N            |
