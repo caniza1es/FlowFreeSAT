@@ -116,9 +116,8 @@ def asignarCD():
 
 #Cada casilla debe tener solo un color y solo una direccion
 def unCD():
-	Yx = []
+	Y_xy = []
 	for x in X:
-		Yy = []
 		for y in Y:
 			Yd = []
 			for d in D:
@@ -128,9 +127,8 @@ def unCD():
 					formula = "("+OenCasilla.P([x,y,c,d])+">-"+Logica.Otoria(ocd)+")"
 					Yc.append(formula)
 				Yd.append(Logica.Ytoria(Yc))
-			Yy.append(Logica.Ytoria(Yd))
-		Yx.append(Logica.Ytoria(Yy))
-	return Logica.Ytoria(Yx)
+			Y_xy.append(Logica.Ytoria(Yd))
+	return Logica.Ytoria(Y_xy)
 
 
 
