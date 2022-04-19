@@ -96,6 +96,7 @@ def asignarReglas(lista):
 	reglas = []
 	reglas.append(unCD())
 	reglas.append(asignarCD())
+	reglas.append(vecT())
 	for i in lista:
 		reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
 	return reglas
@@ -130,6 +131,25 @@ def unCD():
 			Y_xy.append(Logica.Ytoria(Yd))
 	return Logica.Ytoria(Y_xy)
 
+#Cada terminal tiene un solo vecino(un solo color adyacente a este)
+def vecT():
+	Y_xy = []
+	for x in X:
+		for y in Y:
+			Y_c = []
+			for c in C:
+				vecinos = [OenCasilla.P([u,m,c,d]) for u in X for m in Y for d in D if u == x-1 or u == x+1 or m==y+1 or m==y-1 and d!=0 ]
+				formula = "("+OenCasilla.P([x,y,c,0])+">"
+				v = []
+				for e in vecinos:
+					otros_vecinos = [n for n in vecinos if n != e]
+					form = "("+e+"Y-"+Logica.Otoria(otros_vecinos)+")"
+					v.append(form)
+				vv = Logica.Otoria(v)
+				formula+=vv+")"
+				Y_c.append(formula)
+			Y_xy.append(Logica.Ytoria(Y_c))
+	return Logica.Ytoria(Y_xy)
 
 
 					
