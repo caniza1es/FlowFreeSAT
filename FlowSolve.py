@@ -1,9 +1,9 @@
 import Logica
 
-Nx = 1
+Nx = 2
 Ny = 1
-Nc = 3
-Nd = 1
+Nc = 2
+Nd = 2
 X = list(range(Nx))
 Y = list(range(Ny))
 C = list(range(Nc))
@@ -94,30 +94,28 @@ def decodificar(list):
 
 def asignarReglas(lista):
 	reglas = []
-	reglas.append(unColor())
-	reglas.append(asignarColor(),)
+	reglas.append(unCD())
+	reglas.append(asignarCD())
 	for i in lista:
 		reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
 	return reglas
 
-def asignarColor():
-	Yx = []
+#cada casilla debe tener un objeto
+def asignarCD():
+	Y_xy = []
 	for x in X:
-		Yy = []
 		for y in Y:
-			Yd = []
-			for d in D:
 				Oc = []
 				for c in C:
-					formula = OenCasilla.P([x,y,c,d])
+					cd = [OenCasilla.P([x,y,c,u]) for u in D if u != 0]
+					formula = "(-" + OenCasilla.P([x,y,c,0]) + ">"+Logica.Otoria(cd) + ")"  #si no es terminal se le asigna color y direccion
 					Oc.append(formula)
-				Yd.append(Logica.Otoria(Oc))
-			Yy.append(Logica.Ytoria(Yd))
-		Yx.append(Logica.Ytoria(Yy))
-	return Logica.Ytoria(Yx)
+				Y_xy.append(Logica.Otoria(Oc))
+	return Logica.Ytoria(Y_xy)
 
-#Cada casilla debe tener un color especificamente
-def unColor():
+
+#Cada casilla debe tener solo un color y solo una direccion
+def unCD():
 	Yx = []
 	for x in X:
 		Yy = []
@@ -126,11 +124,15 @@ def unColor():
 			for d in D:
 				Yc = []
 				for c in C:
-					otros_colores = [OenCasilla.P([x,y,u,d]) for u in C if u != c]
-					formula = "("+OenCasilla.P([x,y,c,d])+">-"+Logica.Otoria(otros_colores)+")"
+					ocd = [OenCasilla.P([x,y,u,m]) for u in C for m in D if u != c or m != d] #casillas con diferente direccion o color
+					formula = "("+OenCasilla.P([x,y,c,d])+">-"+Logica.Otoria(ocd)+")"
 					Yc.append(formula)
 				Yd.append(Logica.Ytoria(Yc))
 			Yy.append(Logica.Ytoria(Yd))
 		Yx.append(Logica.Ytoria(Yy))
 	return Logica.Ytoria(Yx)
+
+
+
+					
 
