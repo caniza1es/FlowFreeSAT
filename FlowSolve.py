@@ -1,6 +1,6 @@
 import Logica
 
-Nx = 2
+Nx = 4
 Ny = 1
 Nc = 2
 Nd = 2
