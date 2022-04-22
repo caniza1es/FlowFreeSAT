@@ -147,7 +147,10 @@ def vecT():
 					v.append(form)
 				vv = Logica.Otoria(v)
 				formula+=vv+")"
-				Y_c.append(formula)
+				if len(vecinos) != 1:
+					Y_c.append(formula)
+				else:
+					Y_c.append(("("+OenCasilla.P([x,y,c,0])+">"+vecinos[0]+")")
 			Y_xy.append(Logica.Ytoria(Y_c))
 	return Logica.Ytoria(Y_xy)
 
