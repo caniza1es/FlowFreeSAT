@@ -26,7 +26,7 @@ def solve():
 			else:
 				continue
 	formula = Logica.inorder_to_tree(Logica.Ytoria(FlowSolve.asignarReglas(terminales)))
-	I = formula.SATtableaux()
+	I = formula.SATtabla()
 	M = [key for key in I.keys() if I[key] == True]
 	FlowRead.FlowPrint(FlowSolve.decodificar(M))
 
