@@ -138,7 +138,7 @@ def vecT():
 		for y in Y:
 			Y_c = []
 			for c in C:
-				vecinos = [OenCasilla.P([u,m,c,d]) for u in X for m in Y for d in D if u == x-1 or u == x+1 or m==y+1 or m==y-1 and d!=0 ]
+				vecinos = [OenCasilla.P([u,m,c,d]) for u in X for m in Y for d in D if (u == x-1 and m == y) or (u == x+1 and m == y) or (m==y+1 and u == x) or (m==y-1 and u == x) and d!=0 ]
 				formula = "("+OenCasilla.P([x,y,c,0])+">"
 				v = []
 				for e in vecinos:
@@ -153,4 +153,5 @@ def vecT():
 
 
 					
+
 
