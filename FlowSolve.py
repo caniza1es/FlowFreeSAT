@@ -1,7 +1,7 @@
 import Logica
 
-Nx = 1
-Ny = 3
+Nx = 4
+Ny = 1
 Nc = 2
 Nd = 2
 X = list(range(Nx))
@@ -99,7 +99,13 @@ def asignarReglas(lista):
 	reglas.append(vecT())
 	for i in lista:
 		reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
-	return reglas
+	total = Logica.Ytoria(reglas)
+	return resolver(Logica.inorder_to_tree(total))
+
+def resolver(formula):
+	I = formula.SATtabla()
+	M = [key for key in I.keys() if I[key] == True]
+	return decodificar(M)
 
 #cada casilla debe tener un objeto
 def asignarCD():

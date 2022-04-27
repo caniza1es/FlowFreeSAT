@@ -1,7 +1,7 @@
+import FlowRead
 start = True
 
 def read():
-	import FlowRead
 	try:
 		MAP_INPUT = FlowRead.FlowRead(input("     >mapa: "))
 		FlowRead.FlowPrint(MAP_INPUT)
@@ -9,8 +9,6 @@ def read():
 		print("archivo no encontrado")
 def solve():
 	import FlowSolve
-	import FlowRead
-	import Logica
 	terminales = []
 	T = FlowRead.FlowRead(input("     >mapa: "))
 	for y in range(len(T)):
@@ -25,10 +23,8 @@ def solve():
 				terminales.append((x,y,3,0))
 			else:
 				continue
-	formula = Logica.inorder_to_tree(Logica.Ytoria(FlowSolve.asignarReglas(terminales)))
-	I = formula.SATtabla()
-	M = [key for key in I.keys() if I[key] == True]
-	FlowRead.FlowPrint(FlowSolve.decodificar(M))
+	formula = FlowSolve.asignarReglas(terminales)
+	FlowRead.FlowPrint(formula)
 
 def switch(case):
 	if case == 'a':
