@@ -63,8 +63,6 @@ def FlowPrint(MAP_MATRIX):
 			except:
 				cell.shape(D['9'])
 			cell.stamp()
-			cell.write(TYPE, font=("Verdana",15, "normal"))
-
 			x += 100
 		y-=100 
 	FlowWindow.exitonclick()
