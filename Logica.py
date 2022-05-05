@@ -1,6 +1,6 @@
 '''
-Librería con las clases y funciones
-para lógica proposicional
+Libreria con las clases y funciones
+para logica proposicional
 '''
 
 from itertools import product
@@ -114,7 +114,7 @@ class Formula :
 
     def ver(self, D):
         '''
-        Visualiza una fórmula A (como string en notación inorder) usando el descriptor D
+        Visualiza una fĂłrmula A (como string en notaciĂłn inorder) usando el descriptor D
         '''
         vis = []
         A = str(self)
@@ -131,7 +131,7 @@ class Formula :
                 try:
                     vis.append(D.escribir(c))
                 except:
-                    raise("¡Caracter inválido!")
+                    raise("ÂĄCaracter invĂĄlido!")
         return ''.join(vis)
 
     def eliminar_imp(self):
@@ -305,7 +305,7 @@ def inorder_to_tree(cadena:str):
             elif cadena[i] in conectivos and counter == 0:
                 return Binario(cadena[i], inorder_to_tree(cadena[1:i]),inorder_to_tree(cadena[i + 1:-1]))
     else:
-        raise Exception('¡Cadena inválida!')
+        raise Exception('ÂĄCadena invĂĄlida!')
 
 class Descriptor :
 
@@ -313,7 +313,7 @@ class Descriptor :
     Codifica un descriptor de N argumentos mediante un solo caracter
     Input:  args_lista, lista con el total de opciones para cada
                      argumento del descriptor
-            chrInit, entero que determina el comienzo de la codificación chr()
+            chrInit, entero que determina el comienzo de la codificaciĂłn chr()
     Output: str de longitud 1
     '''
 
@@ -416,7 +416,7 @@ class nodos_tableaux:
         return I
 
     def expandir(self):
-        '''Escoge última alfa, si no última beta, si no None'''
+        '''Escoge Ăşltima alfa, si no Ăşltima beta, si no None'''
         f_alfas = deepcopy(self.alfas)
         f_betas = deepcopy(self.betas)
         f_literales = deepcopy(self.literales)
@@ -501,7 +501,7 @@ def a_clausal(A):
     #                   p=(qOr)
     #                   p=(q>r)
     # Output: B (cadena), equivalente en FNC
-    assert(len(A)==4 or len(A)==7), u"Fórmula incorrecta!"
+    assert(len(A)==4 or len(A)==7), u"FĂłrmula incorrecta!"
     B = ''
     p = A[0]
     # print('p', p)
@@ -535,7 +535,7 @@ def a_clausal(A):
         #qO-rO-pY-qOrO-pY-qO-rOpYqOrOp
         B = q+"O"+"-"+r+"O"+"-"+p+"Y"+"-"+q+"O"+r+"O"+"-"+p+"Y"+"-"+q+"O"+"-"+r+"O"+p+"Y"+q+"O"+r+"O"+p
     else:
-        print(u'Error enENC(): Fórmula incorrecta!')
+        print(u'Error enENC(): FĂłrmula incorrecta!')
     B = B.split('Y')
     B = [c.split('O') for c in B]
     return B
@@ -556,7 +556,7 @@ def tseitin(A):
     L = [] # Inicializamos lista de conjunciones
     Pila = [] # Inicializamos pila
     i = -1 # Inicializamos contador de variables nuevas
-    s = A[0] # Inicializamos símbolo de trabajo
+    s = A[0] # Inicializamos sĂ­mbolo de trabajo
     while len(A) > 0: # Recorremos la cadena
         # print("Pila:", Pila, " L:", L, " s:", s)
         if (s in letrasp) and (len(Pila) > 0) and (Pila[-1]=='-'):
@@ -624,7 +624,29 @@ def unit_propagate(S, I):
                 S = eliminar_literal(S, l)
                 I = extender_I(I, l)
                 break
-        if l == '': # Se recorrió todo S y no se encontró unidad
+        if l == '': # Se recorriĂł todo S y no se encontrĂł unidad
             break
     return S, I
+
+def dpll(S, I):
+    S,I = unit_propagate(S,I)
+    if [] in S:
+        return "Insatisfacible",{}
+    elif not len(S):
+        return "Satisfacible",I
+    else:
+        while True:
+            l = choice(choice(S))
+            if l not in I.keys():
+                break
+        SP = eliminar_literal(S, l)
+        IP = extender_I(I, l)
+        ST,IT = dpll(SP,IP)
+        if ST == "Satisfacible" and IT != None:
+            return ST,IT
+        else:
+            SPP = eliminar_literal(S, complemento(l))
+            IPP = extender_I(I,complemento(l))
+            return dpll(SPP,IPP)
+
 
