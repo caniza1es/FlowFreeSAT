@@ -1,7 +1,7 @@
 import Logica
 
-Nx = 3
-Ny = 3
+Nx = 4
+Ny = 4
 Nc = 4
 Nd = 2
 X = list(range(Nx))
