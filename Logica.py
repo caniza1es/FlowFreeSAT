@@ -628,6 +628,8 @@ def unit_propagate(S, I):
             break
     return S, I
 
+from random import choice
+
 def dpll(S, I):
     S,I = unit_propagate(S,I)
     if [] in S:
