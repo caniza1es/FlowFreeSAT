@@ -1,9 +1,9 @@
 import Logica
 
-Nx = 3
-Ny = 1
-Nc = 2
-Nd = 2
+Nx = 5
+Ny = 5
+Nc = 4
+Nd = 4
 X = list(range(Nx))
 Y = list(range(Ny))
 C = list(range(Nc))
@@ -119,13 +119,10 @@ def topico(tsei,intdict):
 
 def resolver(formula):
     S = Logica.tseitin(formula)
-    print(S)
     for clp in S:
         for ll in clp:
             if ll in tme:
                 clp.remove(ll)
-    print("---")
-    print(S)
     pycosatset = S
     count = 1
     intdict = {}
