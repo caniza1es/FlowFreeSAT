@@ -1,14 +1,15 @@
 import Logica
 
-Nx = 5
-Ny = 5
-Nc = 4
-Nd = 7
+Nx = 3
+Ny = 1
+Nc = 2
+Nd = 2
 X = list(range(Nx))
 Y = list(range(Ny))
 C = list(range(Nc))
 D = list(range(Nd))
 xypos = []
+tme = []
 Colores = {
     0 : 'R',
     1 : 'G',
@@ -98,6 +99,10 @@ def asignarReglas(lista):
     reglas.append(vecT())
     for i in lista:
         reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
+        for ccc in C:
+            for ddd in D:
+                if i[2] != ccc or i[3] != ddd:
+                    tme.append(OenCasilla.P([i[0],i[1],ccc,ddd]))
         xypos.append((i[0],i[1]))
     reglas.append(asignarCD())
     return resolver(Logica.Ytoria(reglas))
@@ -114,6 +119,13 @@ def topico(tsei,intdict):
 
 def resolver(formula):
     S = Logica.tseitin(formula)
+    print(S)
+    for clp in S:
+        for ll in clp:
+            if ll in tme:
+                clp.remove(ll)
+    print("---")
+    print(S)
     pycosatset = S
     count = 1
     intdict = {}
