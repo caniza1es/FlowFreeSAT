@@ -3,13 +3,12 @@ import Logica
 Nx = 5
 Ny = 5
 Nc = 4
-Nd = 4
+Nd = 7
 X = list(range(Nx))
 Y = list(range(Ny))
 C = list(range(Nc))
 D = list(range(Nd))
 xypos = []
-tme = []
 Colores = {
     0 : 'R',
     1 : 'G',
@@ -53,7 +52,7 @@ def decodificar(list):
         "Rlr" : "r",
         "Rtb" : "Q",
         "Rtl" : "W",
-        "Rtr" :    "E",
+        "Rtr" :  "E",
         "Rlb" : "T",
         "Rrb" : "Y",
         "Gt"  : "G",
@@ -69,6 +68,7 @@ def decodificar(list):
         "Btr" : "c",
         "Blb" : "v",
         "Brb" : "n",
+        "Blr" : "b",
         "Ot" : "O",
         "Olr" : "o",
         "Otb" : "Z",
@@ -99,10 +99,6 @@ def asignarReglas(lista):
     reglas.append(vecT())
     for i in lista:
         reglas.append(OenCasilla.P([i[0],i[1],i[2],i[3]]))
-        for ccc in C:
-            for ddd in D:
-                if i[2] != ccc or i[3] != ddd:
-                    tme.append(OenCasilla.P([i[0],i[1],ccc,ddd]))
         xypos.append((i[0],i[1]))
     reglas.append(asignarCD())
     return resolver(Logica.Ytoria(reglas))
@@ -119,10 +115,6 @@ def topico(tsei,intdict):
 
 def resolver(formula):
     S = Logica.tseitin(formula)
-    for clpp in S:
-        for llll in clpp:
-            if llll in tme:
-                clpp.remove(llll)
     pycosatset = S
     count = 1
     intdict = {}
@@ -212,5 +204,4 @@ def vecT():
 
 
                     
-
 
