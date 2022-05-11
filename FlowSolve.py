@@ -1,9 +1,9 @@
 import Logica
 
-Nx = 4
-Ny = 4
+Nx = 5
+Ny = 5
 Nc = 4
-Nd = 2
+Nd = 7
 X = list(range(Nx))
 Y = list(range(Ny))
 C = list(range(Nc))
@@ -102,12 +102,46 @@ def asignarReglas(lista):
     reglas.append(asignarCD())
     return resolver(Logica.Ytoria(reglas))
 
+def topico(tsei,intdict):
+    M = []
+    for claus in tsei:
+        cl = []
+        for kkk in claus:
+            kkk = intdict[kkk]
+            cl.append(kkk)
+        M.append(cl)
+    return M
+
 def resolver(formula):
     S = Logica.tseitin(formula)
-    S,I = Logica.dpll(S,{})
+    pycosatset = S
+    count = 1
+    intdict = {}
+    dictint = {}
+    for cl in S:
+        for kk in cl:
+            if "-" not in kk:
+                if kk not in intdict.keys():
+                    intdict[kk] = count
+                    dictint[count] = kk
+                    count+=1
+            else:
+                if kk[1] not in intdict.keys():
+                    intdict[kk[1]] = count
+                    dictint[count] = kk[1]
+                    count+=1
+                intdict[kk] = -1 * intdict[kk[1]]
+    pycosatset = topico(pycosatset,intdict)
+    import pycosat
+    solution = pycosat.solve(pycosatset)
+    II = {}
+    for innt in solution:
+        num = -1*innt if innt < 0 else innt
+        boole = True if innt > 0 else False
+        II[dictint[num]] = boole
     lis = []
-    for k in I:
-        if (ord(k) >= OenCasilla.rango[0]) and (ord(k) <= OenCasilla.rango[1]) and I[k]:
+    for k in II:
+        if (ord(k) >= OenCasilla.rango[0]) and (ord(k) <= OenCasilla.rango[1]) and II[k]:
             lis.append(k)
     return decodificar(lis)
 
