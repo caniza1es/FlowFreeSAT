@@ -119,10 +119,10 @@ def topico(tsei,intdict):
 
 def resolver(formula):
     S = Logica.tseitin(formula)
-    for clp in S:
-        for ll in clp:
-            if ll in tme:
-                clp.remove(ll)
+    for clpp in S:
+        for llll in clpp:
+            if llll in tme:
+                clpp.remove(llll)
     pycosatset = S
     count = 1
     intdict = {}
