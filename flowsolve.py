@@ -314,6 +314,33 @@ def regla_8(): # Asignar left-bottom
                     Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
 
+def regla_9(): # Asignar right-bottom
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys() and (x!=Nx-1 and y!=Ny-1):
+                O_c = []
+                for c in C:
+                    formula = "(" + OenCasilla.P([x, y, c, 3]) + "Y" + OenCasilla.P([x, y, c, 1]) + ")"
+                    vecinos = []
+                    if((x, y + 1) in pos_t.keys()):
+                        if ((x + 1, y) in pos_t.keys()): # bottom es Terminal y right es Terminal
+                            continue
+                        else: # bottom es Terminal y right no es Terminal
+                            vecinos.append( OenCasilla.P([x + 1, y, pos_t[(x, y + 1)], 2]) )
+                    elif ((x + 1, y) in pos_t.keys()): # bottom no es Terminal y right es Terminal
+                        vecinos.append( OenCasilla.P([x, y + 1, pos_t[(x + 1, y)], 0]) )
+                    else: # ni bottom ni right son Terminal
+                        vecinos.append( "(" + OenCasilla.P([x, y + 1, c , 0]) + "Y" + OenCasilla.P([x + 1, y, c, 2]) + ")")
+                    opuestos_a = ["-" + OenCasilla.P([y - 1, y, o, 1]) for o in C if y - 1 in X]
+                    opuestos_b = ["-" + OenCasilla.P([x - 1, y, o, 3]) for o in C if x - 1 in X]
+                    total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
+                    formula_total = "(" + formula + ">" + total_op + ")"
+                    O_c.append(formula_total)
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
+    return Logica.Ytoria(Y_xy)
+
 def regla_10(): #casillas extremas
     Y_xy = []
     for d in D:
