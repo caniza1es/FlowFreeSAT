@@ -110,22 +110,7 @@ direcciones_posibles = {
 OenCasilla = Logica.Descriptor([Nx,Ny,Nc,Nd])
 pos_t = defineMap(mapa)
 
-
 def regla_1():
-    Y_xy = []
-    for x in X:
-        for y in Y:
-            if (x,y) not in pos_t.keys():
-                O_d = []
-                for d in direcciones_posibles.keys():
-                    pq = [Logica.Ytoria([OenCasilla.P([x,y,c,d[0]]),OenCasilla.P([x,y,c,d[1]])]) for c in C] 
-                    pq = Logica.Otoria(pq)
-                    O_d.append(pq)
-                Y_xy.append(Logica.Otoria(O_d))
-    return Logica.Ytoria(Y_xy)
-
-
-def regla_2():
     Y_xy = []
     for x in X:
         for y in Y:
@@ -137,6 +122,20 @@ def regla_2():
                     formula = "("+Logica.Otoria(q)+"Y-"+Logica.Otoria(nq)+")"
                     O_c.append(formula)
                 Y_xy.append(Logica.Otoria(O_c))
+    return Logica.Ytoria(Y_xy)
+
+
+def regla_2():
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys():
+                O_d = []
+                for d in direcciones_posibles.keys():
+                    pq = [Logica.Ytoria([OenCasilla.P([x,y,c,d[0]]),OenCasilla.P([x,y,c,d[1]])]) for c in C] 
+                    pq = Logica.Otoria(pq)
+                    O_d.append(pq)
+                Y_xy.append(Logica.Otoria(O_d))
     return Logica.Ytoria(Y_xy)
 
 def vectort(T,vecino_escogido):
@@ -199,6 +198,12 @@ def visualizar(I):
         cell.stamp()
     FlowWindow.exitonclick()
 
+def flowSAT():
+        SAT = []
+        SAT.append(regla_1())
+        SAT.append(regla_2())
+        SAT.append(regla_3())
+        return Logica.Ytoria(SAT)
 
-M = resolver(Logica.Ytoria([regla_1(),regla_2(),regla_3()]))
+M = resolver(flowSAT())
 visualizar(M)
