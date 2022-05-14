@@ -162,7 +162,7 @@ def regla_3():#asignaterminales
             vtp = OenCasilla.P([vecino_escogido[0],vecino_escogido[1],pos_t[T],vectort(T,vecino_escogido)])
             ovtotal = []
             for ov in otros_vecinos:
-                ovc = [OenCasilla.P([ov[0],ov[1],pos_t[T],dd]) for dd in D]
+                ovc = [OenCasilla.P([ov[0],ov[1],c,vectort(T,(ov[0],ov[1]))])for c in C]
                 ovtotal.append(Logica.Otoria(ovc))
             formula = "("+vtp+"Y-"+Logica.Otoria(ovtotal)+")"
             O_par_t.append(formula)
@@ -332,7 +332,7 @@ def regla_9(): # Asignar right-bottom
                         vecinos.append( OenCasilla.P([x, y + 1, pos_t[(x + 1, y)], 0]) )
                     else: # ni bottom ni right son Terminal
                         vecinos.append( "(" + OenCasilla.P([x, y + 1, c , 0]) + "Y" + OenCasilla.P([x + 1, y, c, 2]) + ")")
-                    opuestos_a = ["-" + OenCasilla.P([y - 1, y, o, 1]) for o in C if y - 1 in X]
+                    opuestos_a = ["-" + OenCasilla.P([x, y - 1, o, 1]) for o in C if y - 1 in X]
                     opuestos_b = ["-" + OenCasilla.P([x - 1, y, o, 3]) for o in C if x - 1 in X]
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
@@ -399,9 +399,9 @@ def flowSAT():
         SAT.append(regla_7())
         SAT.append(regla_8())
         SAT.append(regla_10())
-        for i in SAT:
-            print(SAT.index(i))
-            a = Logica.tseitin(i)
+        #for i in SAT:
+        #    print(SAT.index(i))
+        #    a = Logica.tseitin(i)
         return Logica.Ytoria(SAT)
 
 
