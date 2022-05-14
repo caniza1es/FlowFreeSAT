@@ -153,6 +153,9 @@ def regla_3():
     Y_pos_t = []
     for T in pos_t.keys():
         vecinos = [(x,y) for x in X for y in Y if ((x,y) not in pos_t.keys()) and (((x+1==T[0] or x-1==T[0])and y==T[1]) or ((y+1==T[1] or y-1==T[1])and x==T[0]))]
+        if len(vecinos) == 1:
+            Y_pos_t.append(OenCasilla.P([vecinos[0][0],vecinos[0][1],pos_t[T],vectort(T,vecinos[0])]))
+            continue
         O_par_t = []
         for vecino_escogido in vecinos:
             otros_vecinos = [i for i in vecinos if i!=vecino_escogido]
