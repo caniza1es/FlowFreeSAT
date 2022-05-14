@@ -200,7 +200,7 @@ def regla_4():#asignaleft-right
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "("+formula+">"+total_op+")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Otoria(O_c))
+                Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
                         
  def regla_5(): # Asignar top-right
@@ -226,7 +226,7 @@ def regla_4():#asignaleft-right
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Otoria(O_c))
+                Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
    
 
@@ -253,10 +253,34 @@ def regla_6(): # Asignar top-left
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Otoria(O_c))
+                Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)                   
-                        
-                    
+
+def regla_7(): # Asignar top-bottom
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys() and (y!=0 and y!=Ny-1):
+                O_c = []
+                for c in C:
+                    formula = "(" + OenCasilla.P([x, y, c, 0]) + "Y" + OenCasilla.P([x, y, c, 1]) + ")"
+                    vecinos = []
+                    if((x, y + 1) in pos_t.keys()):
+                        if ((x, y - 1) in pos_t.keys()): # bottom es Terminal y top es Terminal
+                            continue
+                        else: # bottom es Terminal y top no es Terminal
+                            vecinos.append( OenCasilla.P([x, y - 1, pos_t[(x, y + 1)], 1]) )
+                    elif ((x, y - 1) in pos_t.keys()): # bottom no es Terminal y top es Terminal
+                        vecinos.append( OenCasilla.P([x, y + 1, pos_t[(x, y - 1)], 0]) )
+                    else: # ni bottom ni top son Terminal
+                        vecinos.append( "(" + OenCasilla.P([x, y + 1, c , 0]) + "Y" + OenCasilla.P([x ,y - 1, c, 1]) + ")")
+                    opuestos_a = ["-" + OenCasilla.P([x - 1, y, o, 3]) for o in C if x - 1 in X]
+                    opuestos_b = ["-" + OenCasilla.P([x + 1, y, o, 2]) for o in C if x + 1 in X]
+                    total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
+                    formula_total = "(" + formula + ">" + total_op + ")"
+                    O_c.append(formula_total)
+                Y_xy.append(Logica.Ytoria(O_c))
+    return Logica.Ytoria(Y_xy)
 
 def coors(x,y):
     return -200+(x*100),200-(y*100)
