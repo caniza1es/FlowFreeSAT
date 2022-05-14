@@ -203,7 +203,58 @@ def regla_4():#asignaleft-right
                 Y_xy.append(Logica.Otoria(O_c))
     return Logica.Ytoria(Y_xy)
                         
-                    
+ def regla_5(): # Asignar top-right
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys() and (y!=0 and x!=Nx-1):
+                O_c = []
+                for c in C:
+                    formula = "(" + OenCasilla.P([x, y, c, 0]) + "Y" + OenCasilla.P([x, y, c, 3]) + ")"
+                    vecinos = []
+                    if((x + 1, y) in pos_t.keys()):
+                        if ((x, y - 1) in pos_t.keys()):
+                            continue
+                        else:
+                            vecinos.append( OenCasilla.P([x, y - 1, pos_t[(x + 1, y)], 1]) )
+                    elif ((x, y - 1) in pos_t.keys()):
+                        vecinos.append( OenCasilla.P([x + 1, y, pos_t[(x, y - 1)], 2]) )
+                    else:
+                        vecinos.append( "(" + OenCasilla.P([x + 1, y, c , 2]) + "Y" + OenCasilla.P([x ,y - 1, c, 1]) + ")")
+                    opuestos_a = ["-" + OenCasilla.P([x, y + 1, o, 0]) for o in C if y + 1 in Y]
+                    opuestos_b = ["-" + OenCasilla.P([x - 1, y, o, 3]) for o in C if x - 1 in X]
+                    total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
+                    formula_total = "(" + formula + ">" + total_op + ")"
+                    O_c.append(formula_total)
+                Y_xy.append(Logica.Otoria(O_c))
+    return Logica.Ytoria(Y_xy)
+   
+
+def regla_6(): # Asignar top-left
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys() and (y!=0 and x!=0):
+                O_c = []
+                for c in C:
+                    formula = "(" + OenCasilla.P([x, y, c, 0]) + "Y" + OenCasilla.P([x, y, c, 2]) + ")"
+                    vecinos = []
+                    if((x - 1, y) in pos_t.keys()):
+                        if ((x, y - 1) in pos_t.keys()):
+                            continue
+                        else:
+                            vecinos.append( OenCasilla.P([x, y - 1, pos_t[(x - 1, y)], 1]) )
+                    elif ((x, y - 1) in pos_t.keys()):
+                        vecinos.append( OenCasilla.P([x - 1, y, pos_t[(x, y - 1)], 3]) )
+                    else:
+                        vecinos.append( "(" + OenCasilla.P([x - 1, y, c , 3]) + "Y" + OenCasilla.P([x ,y - 1, c, 1]) + ")")
+                    opuestos_a = ["-" + OenCasilla.P([x, y + 1, o, 0]) for o in C if y + 1 in Y]
+                    opuestos_b = ["-" + OenCasilla.P([x + 1, y, o, 2]) for o in C if x + 1 in X]
+                    total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
+                    formula_total = "(" + formula + ">" + total_op + ")"
+                    O_c.append(formula_total)
+                Y_xy.append(Logica.Otoria(O_c))
+    return Logica.Ytoria(Y_xy)                   
                         
                     
 
