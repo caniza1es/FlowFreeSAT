@@ -13,9 +13,9 @@ O - naranja <br />
 DIRECCIONES
 -----------
 
-|         | terminal | left-right | top-bottom | top-left | top-right | left-botom | right-bottom |
-|---------|----------|------------|------------|----------|-----------|------------|--------------|
-| rojo    | R        | r          | Q          | W        | E         | T          | Y            |
-| verde   | G        | g          | q          | w        | e         | t          | y            |
-| azul    | B        | b          | z          | x        | c         | v          | n            |
-| naranja | O        | o          | Z          | X        | C         | V          | N            |
+─ left-right <br />
+│ top bottom <br />
+┘ top left <br />
+└ top right <br />
+┐ bottom left <br />
+┌ bottom right <br />
