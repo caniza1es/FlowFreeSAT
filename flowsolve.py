@@ -282,6 +282,22 @@ def regla_7(): # Asignar top-bottom
                 Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
 
+def regla_10(): #casillas extremas
+    Y_xy = []
+    for d in D:
+        for y in Y:
+            for c in C:
+                if d == 2:
+                    formula = "-" + OenCasilla.P([0,y,c,d])
+                if d == 3:
+                    formula = "-" + OenCasilla.P([Nx-1,y,c,d])
+                if d == 0:
+                    formula = "-" + OenCasilla.P([y,0,c,d])
+                if d == 1:
+                    formula = "-"+OenCasilla.P([y,Ny-1,c,d])
+                Y_xy.append(formula)
+    return Logica.Ytoria(Y_xy)
+
 def coors(x,y):
     return -200+(x*100),200-(y*100)
 
@@ -319,6 +335,10 @@ def flowSAT():
         SAT.append(regla_2())
         SAT.append(regla_3())
         SAT.append(regla_4())
+	SAT.append(regla_5())
+	SAT.append(regla_6())
+	SAT.append(regla_7())
+	SAT.append(regla_10())
         return Logica.Ytoria(SAT)
 
 
