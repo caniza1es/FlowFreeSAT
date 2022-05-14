@@ -110,7 +110,7 @@ direcciones_posibles = {
 OenCasilla = Logica.Descriptor([Nx,Ny,Nc,Nd])
 pos_t = defineMap(mapa)
 
-def regla_1():
+def regla_1():#asigna colores
     Y_xy = []
     for x in X:
         for y in Y:
@@ -132,8 +132,9 @@ def regla_2():
             if (x,y) not in pos_t.keys():
                 O_d = []
                 for d in direcciones_posibles.keys():
-                    pq = [Logica.Ytoria([OenCasilla.P([x,y,c,d[0]]),OenCasilla.P([x,y,c,d[1]])]) for c in C] 
-                    pq = Logica.Otoria(pq)
+                    pq = [Logica.Ytoria([OenCasilla.P([x,y,c,d[0]]),OenCasilla.P([x,y,c,d[1]])]) for c in C]
+                    npq = [Logica.Ytoria([OenCasilla.P([x,y,c,u[0]]),OenCasilla.P([x,y,c,u[1]])]) for c in C for u in direcciones_posibles.keys() if u!=d]
+                    pq = "("+Logica.Otoria(pq)+"Y-"+Logica.Otoria(npq)+")"
                     O_d.append(pq)
                 Y_xy.append(Logica.Otoria(O_d))
     return Logica.Ytoria(Y_xy)
@@ -148,7 +149,7 @@ def vectort(T,vecino_escogido):
     elif vecino_escogido[1] == T[1] - 1:
         return 1
 
-def regla_3():
+def regla_3():#asignaterminales
     Y_pos_t = []
     for T in pos_t.keys():
         vecinos = [(x,y) for x in X for y in Y if ((x,y) not in pos_t.keys()) and (((x+1==T[0] or x-1==T[0])and y==T[1]) or ((y+1==T[1] or y-1==T[1])and x==T[0]))]
@@ -167,6 +168,44 @@ def regla_3():
             O_par_t.append(formula)
         Y_pos_t.append(Logica.Otoria(O_par_t))
     return Logica.Ytoria(Y_pos_t)
+
+def vec(x, y, direccion):
+    if 2 in direccion:
+        if 3 in direccion:
+            return (x-1, y)
+        
+
+
+#direccion 2-3
+def regla_4():#asignaleft-right
+    Y_xy = []
+    for x in X:
+        for y in Y:
+            if (x,y) not in pos_t.keys() and (x!=0 and x!=Nx-1):
+                O_c = []
+                for c in C:
+                    formula = "("+OenCasilla.P([x,y,c,2])+"Y"+OenCasilla.P([x,y,c,3])+")"
+                    vecinos = []
+                    if((x+1,y) in pos_t.keys()):
+                        if ((x-1,y) in pos_t.keys()):
+                            continue
+                        else:
+                            vecinos.append( OenCasilla.P([x - 1, y, pos_t[(x + 1, y)], 3]) )
+                    elif ((x-1,y) in pos_t.keys()):
+                        vecinos.append( OenCasilla.P([x + 1, y, pos_t[(x-1, y)], 2]) )
+                    else:
+                        vecinos.append( OenCasilla.P([x + 1, y, c ,2]) + "Y" + OenCasilla.P([x - 1,y,c,3]))
+                    opuestos_a = ["-"+OenCasilla.P([x,y+1,o,0]) for o in C if y+1 in Y]
+                    opuestos_b = ["-"+OenCasilla.P([x,y-1,o,1]) for o in C if y-1 in Y]
+                    total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
+                    formula_total = "("+formula+">"+total_op+")"
+                    O_c.append(formula_total)
+                Y_xy.append(Logica.Otoria(O_c))
+    return Logica.Ytoria(Y_xy)
+                        
+                    
+                        
+                    
 
 def coors(x,y):
     return -200+(x*100),200-(y*100)
@@ -197,13 +236,16 @@ def visualizar(I):
         cell.shape('img/{0}{1}.gif'.format(dirr,color))
         cell.stamp()
     FlowWindow.exitonclick()
+    turtle.mainloop()
 
 def flowSAT():
         SAT = []
         SAT.append(regla_1())
         SAT.append(regla_2())
         SAT.append(regla_3())
+        SAT.append(regla_4())
         return Logica.Ytoria(SAT)
+
 
 M = resolver(flowSAT())
 visualizar(M)
