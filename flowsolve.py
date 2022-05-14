@@ -194,16 +194,17 @@ def regla_4():#asignaleft-right
                     elif ((x-1,y) in pos_t.keys()):
                         vecinos.append( OenCasilla.P([x + 1, y, pos_t[(x-1, y)], 2]) )
                     else:
-                        vecinos.append( OenCasilla.P([x + 1, y, c ,2]) + "Y" + OenCasilla.P([x - 1,y,c,3]))
+                        vecinos.append( "("+OenCasilla.P([x + 1, y, c ,2]) + "Y" + OenCasilla.P([x - 1,y,c,3])+")")
                     opuestos_a = ["-"+OenCasilla.P([x,y+1,o,0]) for o in C if y+1 in Y]
                     opuestos_b = ["-"+OenCasilla.P([x,y-1,o,1]) for o in C if y-1 in Y]
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "("+formula+">"+total_op+")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Ytoria(O_c))
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
-                        
- def regla_5(): # Asignar top-right
+
+def regla_5(): # Asignar top-right
     Y_xy = []
     for x in X:
         for y in Y:
@@ -226,9 +227,9 @@ def regla_4():#asignaleft-right
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Ytoria(O_c))
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
-   
 
 def regla_6(): # Asignar top-left
     Y_xy = []
@@ -253,7 +254,10 @@ def regla_6(): # Asignar top-left
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Ytoria(O_c))
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
+                else:
+                    print("ee")
     return Logica.Ytoria(Y_xy)                   
 
 def regla_7(): # Asignar top-bottom
@@ -279,9 +283,9 @@ def regla_7(): # Asignar top-bottom
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Ytoria(O_c))
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
-
 
 def regla_8(): # Asignar left-bottom
     Y_xy = []
@@ -290,7 +294,7 @@ def regla_8(): # Asignar left-bottom
             if (x,y) not in pos_t.keys() and (x!=0 and y!=Ny-1):
                 O_c = []
                 for c in C:
-                    formula = "(" + OenCasilla.P([x, y, c, 3]) + "Y" + OenCasilla.P([x, y, c, 1]) + ")"
+                    formula = "(" + OenCasilla.P([x, y, c, 2]) + "Y" + OenCasilla.P([x, y, c, 1]) + ")"
                     vecinos = []
                     if((x, y + 1) in pos_t.keys()):
                         if ((x - 1, y) in pos_t.keys()): # bottom es Terminal y left es Terminal
@@ -306,7 +310,8 @@ def regla_8(): # Asignar left-bottom
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
                     O_c.append(formula_total)
-                Y_xy.append(Logica.Ytoria(O_c))
+                if len(O_c) != 0:
+                    Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
 
 def regla_10(): #casillas extremas
@@ -362,10 +367,14 @@ def flowSAT():
         SAT.append(regla_2())
         SAT.append(regla_3())
         SAT.append(regla_4())
-	SAT.append(regla_5())
-	SAT.append(regla_6())
-	SAT.append(regla_7())
-	SAT.append(regla_10())
+        SAT.append(regla_5())
+        SAT.append(regla_6())
+        SAT.append(regla_7())
+        SAT.append(regla_8())
+        SAT.append(regla_10())
+        for i in SAT:
+            print(SAT.index(i))
+            a = Logica.tseitin(i)
         return Logica.Ytoria(SAT)
 
 
