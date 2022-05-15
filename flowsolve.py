@@ -310,7 +310,7 @@ def regla_8(): # Asignar left-bottom
                         vecinos.append( OenCasilla.P([x, y + 1, pos_t[(x - 1, y)], 0]) )
                     else: # ni bottom ni left son Terminal
                         vecinos.append( "(" + OenCasilla.P([x, y + 1, c , 0]) + "Y" + OenCasilla.P([x - 1, y, c, 3]) + ")")
-                    opuestos_a = ["-" + OenCasilla.P([y - 1, y, o, 1]) for o in C if y - 1 in X]
+                    opuestos_a = ["-" + OenCasilla.P([x, y -1, o, 1]) for o in C if y - 1 in Y]
                     opuestos_b = ["-" + OenCasilla.P([x + 1, y, o, 2]) for o in C if x + 1 in X]
                     total_op = Logica.Ytoria(vecinos + opuestos_a + opuestos_b)
                     formula_total = "(" + formula + ">" + total_op + ")"
