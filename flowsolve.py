@@ -405,12 +405,11 @@ def flowSAT():
         SAT.append(regla_8())
         SAT.append(regla_9())
         SAT.append(regla_10())
-	SAT = list(filter(None,SAT))
+	    SAT = list(filter(None,SAT))
         #for i in SAT:
         #    print(SAT.index(i))
         #    a = Logica.tseitin(i)
         return Logica.Ytoria(SAT)
-
 
 M = resolver(flowSAT())
 
