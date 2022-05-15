@@ -401,7 +401,7 @@ def flowSAT():
         SAT.append(regla_6())
         SAT.append(regla_7())
         SAT.append(regla_8())
-	SAT.append(regla_9())
+        SAT.append(regla_9())
         SAT.append(regla_10())
         #for i in SAT:
         #    print(SAT.index(i))
