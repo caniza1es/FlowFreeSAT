@@ -387,7 +387,6 @@ def visualizar(I):
         cell.shape('img/{0}{1}.gif'.format(dirr,color))
         cell.stamp()
     FlowWindow.exitonclick()
-    turtle.mainloop()
 
 def flowSAT():
         SAT = []
