@@ -346,20 +346,23 @@ def regla_9(): # Asignar right-bottom
                     Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
 
-def regla_10(): #casillas extremas
+def regla_10():
     Y_xy = []
-    for d in D:
+    for x in X:
         for y in Y:
-            for c in C:
-                if d == 2:
-                    formula = "-" + OenCasilla.P([0,y,c,d])
-                if d == 3:
-                    formula = "-" + OenCasilla.P([Nx-1,y,c,d])
-                if d == 0:
-                    formula = "-" + OenCasilla.P([y,0,c,d])
-                if d == 1:
-                    formula = "-"+OenCasilla.P([y,Ny-1,c,d])
-                Y_xy.append(formula)
+            if (x,y) not in pos_t.keys():
+                if x == 0:
+                    f = "-"+Logica.Otoria([OenCasilla.P([x,y,c,2]) for c in C])
+                    Y_xy.append(f)
+                elif x==Nx-1:
+                    f = "-"+Logica.Otoria([OenCasilla.P([x,y,c,3]) for c in C])
+                    Y_xy.append(f)
+                if y == 0:
+                    f = "-"+Logica.Otoria([OenCasilla.P([x,y,c,0]) for c in C])
+                    Y_xy.append(f)
+                elif y == Ny-1:
+                    f = "-"+Logica.Otoria([OenCasilla.P([x,y,c,1]) for c in C])
+                    Y_xy.append(f)
     return Logica.Ytoria(Y_xy)
 
 def coors(x,y):
