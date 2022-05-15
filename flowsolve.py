@@ -259,8 +259,6 @@ def regla_6(): # Asignar top-left
                     O_c.append(formula_total)
                 if len(O_c) != 0:
                     Y_xy.append(Logica.Ytoria(O_c))
-                else:
-                    print("ee")
     return Logica.Ytoria(Y_xy)                   
 
 def regla_7(): # Asignar top-bottom
