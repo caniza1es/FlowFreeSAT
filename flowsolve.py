@@ -346,7 +346,7 @@ def regla_9(): # Asignar right-bottom
                     Y_xy.append(Logica.Ytoria(O_c))
     return Logica.Ytoria(Y_xy)
 
-def regla_10():
+def regla_10():#right-bottom
     Y_xy = []
     for x in X:
         for y in Y:
