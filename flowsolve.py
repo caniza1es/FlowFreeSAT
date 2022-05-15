@@ -12,13 +12,15 @@ def defineMap(matriz):
         'R' : 0,
         'G' : 1,
         'B' : 2,
-        'O' : 3
+        'O' : 3,
+        'P' : 4
     }
     for y in range(len(matriz)):
         for x in range(len(matriz[y])):
-            if matriz[y][x] in ['R','G','B','O']:
+            if matriz[y][x] in ['R','G','B','O','P']:
                 dic[(x,y)] = dic_a[matriz[y][x]]
     return dic
+
 
 def topico(tsei,intdict):
     M = []
@@ -72,7 +74,7 @@ mapa = FlowRead(input("mapa: "))
 
 Nx = len(mapa[0])
 Ny = len(mapa)
-Nc = 4
+Nc = 5
 Nd = 4
 X = list(range(Nx))
 Y = list(range(Ny))
@@ -83,14 +85,16 @@ NColores = {
 	'R' : 0,
 	'G' : 1,
 	'B' : 2,
-	'O' : 3
+	'O' : 3,
+        'P' : 4
 }
 
 Colores = {
     0 : 'R',
     1 : 'G',
     2 : 'B',
-    3 : 'O' 
+    3 : 'O',
+    4 : 'P'
 }
 
 Direcciones = {
@@ -367,10 +371,8 @@ def visualizar(I):
     FlowWindow.setup(500,500)
     FlowWindow.title("FlowFree")
     FlowWindow.tracer(0)
-    FlowWindow.addshape('img/0.gif')
-    FlowWindow.addshape('img/1.gif')
-    FlowWindow.addshape('img/2.gif')
-    FlowWindow.addshape('img/3.gif')
+    for T in range(Nc):
+            FlowWindow.addshape('img/{0}.gif'.format(T))
     for d in D:
         for c in C:
             FlowWindow.addshape('img/{0}{1}.gif'.format(d,c))
@@ -396,7 +398,9 @@ def flowSAT():
         SAT.append(regla_4())
         SAT.append(regla_5())
         SAT.append(regla_6())
-        SAT.append(regla_7())
+        a = regla_7()
+        if len(a) != 0:
+            SAT.append(regla_7())
         SAT.append(regla_8())
         SAT.append(regla_9())
         SAT.append(regla_10())
