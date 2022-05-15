@@ -401,9 +401,7 @@ def flowSAT():
         SAT.append(regla_4())
         SAT.append(regla_5())
         SAT.append(regla_6())
-        a = regla_7()
-        if len(a) != 0:
-            SAT.append(regla_7())
+        SAT.append(regla_7())
         SAT.append(regla_8())
         SAT.append(regla_9())
         SAT.append(regla_10())
