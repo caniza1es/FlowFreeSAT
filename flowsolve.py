@@ -415,6 +415,6 @@ def flowSAT():
 
 
 M = resolver(flowSAT())
-M = resolver(flowSAT())
+
 if M:
     visualizar(M)
