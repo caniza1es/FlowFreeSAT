@@ -52,6 +52,9 @@ def resolver(formula):
     pycosatset = topico(pycosatset,intdict)
     import pycosat
     solution = pycosat.solve(pycosatset)
+    if solution == "UNSAT":
+		print(solution)
+		return None
     II = {}
     for innt in solution:
         num = -1*innt if innt < 0 else innt
@@ -407,4 +410,5 @@ def flowSAT():
 
 
 M = resolver(flowSAT())
-visualizar(M)
+if M:
+	visualizar(M)
