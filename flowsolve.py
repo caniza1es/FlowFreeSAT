@@ -366,12 +366,12 @@ def regla_10():#right-bottom
     return Logica.Ytoria(Y_xy)
 
 def coors(x,y):
-    return -200+(x*100),200-(y*100)
+    return -(((100*Nx)/2)-50)+(x*100),(((100*Ny)/2)-50)-(y*100)
 
 def visualizar(I):
     import turtle
     FlowWindow = turtle.Screen()
-    FlowWindow.setup(500,500)
+    FlowWindow.setup(100*Nx,100*Ny)
     FlowWindow.title("FlowFree")
     FlowWindow.tracer(0)
     for T in range(Nc):
