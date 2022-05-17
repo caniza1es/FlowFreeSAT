@@ -22,51 +22,36 @@ def defineMap(matriz):
     return dic
 
 
-def topico(tsei,intdict):
-    M = []
-    for claus in tsei:
-        cl = []
-        for kkk in claus:
-            kkk = intdict[kkk]
-            cl.append(kkk)
-        M.append(cl)
-    return M
+def lit_numero(l):
+    if '-' in l:
+        return -ord(l[1:]) + 256
+    else:
+        return ord(l) - 256
+
+def clausula_numero(C):
+    return [lit_numero(l) for l in C]
+
+def fnc_numero(S):
+    return [clausula_numero(C) for C in S]
+
+def obtener_int(mod):
+        return {chr(256 + abs(n)):n>0 for n in mod}
 
 def resolver(formula):
     S = Logica.tseitin(formula)
-    pycosatset = S
-    count = 1
-    intdict = {}
-    dictint = {}
-    for cl in S:
-        for kk in cl:
-            if "-" not in kk:
-                if kk not in intdict.keys():
-                    intdict[kk] = count
-                    dictint[count] = kk
-                    count+=1
-            else:
-                if kk[1] not in intdict.keys():
-                    intdict[kk[1]] = count
-                    dictint[count] = kk[1]
-                    count+=1
-                intdict[kk] = -1 * intdict[kk[1]]
-    pycosatset = topico(pycosatset,intdict)
+    S = fnc_numero(S)
     import pycosat
-    solution = pycosat.solve(pycosatset)
+    solution = pycosat.solve(S)
     if solution == "UNSAT":
         print(solution)
         return None
-    II = {}
-    for innt in solution:
-        num = -1*innt if innt < 0 else innt
-        boole = True if innt > 0 else False
-        II[dictint[num]] = boole
+    II = obtener_int(solution)
     lis = []
     for k in II:
         if (ord(k) >= OenCasilla.rango[0]) and (ord(k) <= OenCasilla.rango[1]) and II[k]:
             lis.append(k)
     return lis
+
 
 
 
