@@ -550,13 +550,13 @@ def tseitin(A):
     f = inorder_to_tree(A)
     letrasp = f.letras()
     cods_letras = [ord(x) for x in letrasp]
-    m = max(cods_letras) + 256
+    m = max(cods_letras)
     letrasp_tseitin = [chr(x) for x in range(m, m + f.num_conec())]
     letrasp = list(letrasp) + letrasp_tseitin
     L = [] # Inicializamos lista de conjunciones
     Pila = [] # Inicializamos pila
     i = -1 # Inicializamos contador de variables nuevas
-    s = A[0] # Inicializamos sĂ­mbolo de trabajo
+    s = A[0] # Inicializamos sÃ­mbolo de trabajo
     while len(A) > 0: # Recorremos la cadena
         # print("Pila:", Pila, " L:", L, " s:", s)
         if (s in letrasp) and (len(Pila) > 0) and (Pila[-1]=='-'):
