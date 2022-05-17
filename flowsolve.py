@@ -99,7 +99,7 @@ direcciones_posibles = {
     (2,3) : 'lr'
 }
 
-OenCasilla = Logica.Descriptor([Nx,Ny,Nc,Nd])
+OenCasilla = Logica.Descriptor([Nx,Ny,Nc,Nd],chrInit = 257)
 pos_t = defineMap(mapa)
 
 def regla_1():#asigna colores
