@@ -550,7 +550,7 @@ def tseitin(A):
     f = inorder_to_tree(A)
     letrasp = f.letras()
     cods_letras = [ord(x) for x in letrasp]
-    m = max(cods_letras)
+    m = max(cods_letras) + 256
     letrasp_tseitin = [chr(x) for x in range(m, m + f.num_conec())]
     letrasp = list(letrasp) + letrasp_tseitin
     L = [] # Inicializamos lista de conjunciones
